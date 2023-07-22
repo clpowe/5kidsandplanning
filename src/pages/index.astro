@@ -1,15 +1,45 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import BlogPostCard from '../components/BlogPostCard.astro'
+import BlogList from '../components/vue/BlogList.vue'
+import Aside from '../components/Aside.astro'
+
+import { useStoryblokApi } from '@storyblok/astro'
+import type { Story } from '../Types/Blog'
+const storyblokApi = useStoryblokApi()
+
+const { data } = await storyblokApi.get('cdn/stories', {
+	version: import.meta.env.DEV ? 'draft' : 'published',
+	content_type: 'blogPost'
+})
+
+const posts = data.stories.map((story: Story) => {
+	return {
+		title: story.content.title,
+		date: new Date(story.published_at).toLocaleDateString('en-US', {
+			dateStyle: 'full'
+		}),
+		image: story.content.preview_Image?.filename,
+		description: story.content.description,
+		slug: story.full_slug,
+		tags: story.tag_list
+	}
+})
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<script></script>
+
+<BaseLayout title='5 Kids and Planning'>
+	<div class='with-sidebar'>
+		<BlogList client:only='vue' />
+
+		<Aside />
+	</div>
+</BaseLayout>
+
+<style>
+	ul {
+		padding: 0;
+		margin: 0;
+	}
+</style>

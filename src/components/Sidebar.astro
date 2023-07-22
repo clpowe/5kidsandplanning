@@ -1,0 +1,19 @@
+---
+import { storyblokEditable } from '@storyblok/astro'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+
+interface Props {
+  side: string
+  sideWidth?: string
+  contentMin: string
+  space: string
+  noStretch?: boolean
+}
+const { side, sideWidth, contentMin, space, noStretch } = Astro.props
+---
+
+<div class='with-sidebar'>
+  <slot />
+</div>
+
+<style></style>

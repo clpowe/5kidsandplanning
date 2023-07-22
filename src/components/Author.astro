@@ -1,0 +1,43 @@
+---
+const { name, quote, image } = Astro.props
+---
+
+<div class='author'>
+	<div class='content'>
+		<img src={image} alt='' />
+		<div>
+			<p class='postedby'>Posted by:</p>
+			<p class='name'>{name}</p>
+		</div>
+	</div>
+	<blockquote>
+		{quote}
+	</blockquote>
+</div>
+
+<style>
+	.author {
+		display: grid;
+		gap: 0.5rem;
+		padding-block: 1rem;
+		border-bottom: 1px solid black;
+		max-width: 60ch;
+	}
+
+	.content {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		align-self: stretch;
+	}
+
+	img {
+		width: 90px;
+		height: 90px;
+		border-radius: 100%;
+	}
+
+	.postedby {
+		font-weight: bold;
+	}
+</style>

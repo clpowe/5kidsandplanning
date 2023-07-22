@@ -1,0 +1,22 @@
+.container {
+	inline-size: min(100% - 1rem, 70rem);
+	margin-inline: auto;
+}
+
+.with-sidebar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: start;
+	gap: var(--s1);
+}
+
+.with-sidebar > :last-child {
+	flex-basis: 300px;
+	flex-grow: 1;
+}
+
+.with-sidebar > :first-child {
+	flex-basis: 0;
+	flex-grow: 9999;
+	min-inline-size: 60%;
+}

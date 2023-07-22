@@ -1,0 +1,43 @@
+---
+---
+
+<header>
+  <div class='container header'>
+    <div class='bar'></div>
+    <div>
+      <a href='/'>
+        <h1>5 Kids and Planning</h1>
+      </a>
+      <p>A bolg about motherhood</p>
+    </div>
+    <div class='bar'></div>
+  </div>
+</header>
+
+<style>
+  header {
+    container-type: inline-size;
+    display: flex;
+    gap: var(--s1);
+    text-align: center;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bar {
+    background-color: black;
+    height: 2px;
+    width: 100%;
+  }
+  @container (min-width: 75ch) {
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: var(--s1);
+    }
+  }
+</style>

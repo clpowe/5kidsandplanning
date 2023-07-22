@@ -1,0 +1,44 @@
+---
+import { useStoryblokApi } from '@storyblok/astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Author from '../../components/Author.astro'
+import type { Blok } from '../../Types/Blog'
+import Aside from '../../components/Aside.astro'
+
+const storyblokApi = useStoryblokApi()
+const { slug } = Astro.params
+
+const { data }: { data: Blok } = await storyblokApi.get(
+	`cdn/stories/blog/${slug}`,
+	{
+		version: import.meta.env.DEV ? 'draft' : 'published'
+	}
+)
+
+const story = data.story
+
+const { data: data2 } = await storyblokApi.get(`cdn/stories/`, {
+	version: import.meta.env.DEV ? 'draft' : 'published',
+	by_uuids: story.content.Author
+})
+
+const author = data2.stories[0].content
+---
+
+<BaseLayout title={story.name}>
+	<main class='with-sidebar'>
+		<article>
+			<img src={story.content.main_image.filename} alt='' />
+			<h1>{story.name}</h1>
+			<p>{story.content.content}</p>
+			<div>
+				<Author
+					name={author.name}
+					quote={author.tagline}
+					image={author.image.filename}
+				/>
+			</div>
+		</article>
+		<Aside />
+	</main>
+</BaseLayout>
