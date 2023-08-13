@@ -18,16 +18,17 @@ const { name, quote, image } = Astro.props
 <style>
 	.author {
 		display: grid;
-		gap: 0.5rem;
-		padding-block: 1rem;
-		border-bottom: 1px solid black;
+		gap: var(--s-1);
+		padding-block: var(--s-1);
+		border-top: var(--border);
+		border-bottom: var(--border);
 		max-width: 60ch;
 	}
 
 	.content {
 		display: flex;
 		align-items: center;
-		gap: 16px;
+		gap: var(--s1);
 		align-self: stretch;
 	}
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<img height="200" :src="image" alt="" />
+		<img height="200" width="600" :src="image" alt="" class="img" />
 		<h2>
 			<a :href="slug">{{ title }}</a>
 		</h2>
@@ -21,7 +21,7 @@
 </script>
 
 <style>
-	img {
+	.img {
 		width: 100%;
 		object-fit: cover;
 		object-position: top;

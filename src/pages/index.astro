@@ -1,7 +1,12 @@
 ---
+import '@unocss/reset/normalize.css'
+import '../styles/reset.css'
+import '../styles/customVariables.css'
+import '../styles/axioms.css'
+import '../styles/everylayout.css'
+import '../styles/typography.css'
+
 import BaseLayout from '../layouts/BaseLayout.astro'
-import BlogPostCard from '../components/BlogPostCard.astro'
-import BlogList from '../components/vue/BlogList.vue'
 import Aside from '../components/Aside.astro'
 
 import { useStoryblokApi } from '@storyblok/astro'
@@ -31,9 +36,9 @@ const posts = data.stories.map((story: Story) => {
 
 <BaseLayout title='5 Kids and Planning'>
 	<div class='with-sidebar'>
-		<BlogList client:only='vue' />
+		<div hx-post='/clicked' hx-trigger='load' id='articles'></div>
 
-		<Aside />
+		<Aside home={true} />
 	</div>
 </BaseLayout>
 
@@ -41,5 +46,36 @@ const posts = data.stories.map((story: Story) => {
 	ul {
 		padding: 0;
 		margin: 0;
+	}
+
+	.ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.pages {
+		display: flex;
+		margin-top: 2rem;
+	}
+
+	button {
+		background-color: transparent;
+		border: none;
+		font-weight: 700;
+	}
+
+	.next {
+		margin-left: auto;
+	}
+
+	.prev {
+		margin-right: auto;
+	}
+
+	.img {
+		width: 100%;
+		object-fit: cover;
+		object-position: top;
 	}
 </style>

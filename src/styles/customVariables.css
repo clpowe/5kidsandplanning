@@ -1,6 +1,8 @@
 :root {
 	--measure: 75ch;
+
 	--ratio: 1.3;
+
 	--s-5: calc(var(--s-4) / var(--ratio));
 	--s-4: calc(var(--s-3) / var(--ratio));
 	--s-3: calc(var(--s-2) / var(--ratio));
@@ -12,4 +14,8 @@
 	--s3: calc(var(--s2) * var(--ratio));
 	--s4: calc(var(--s3) * var(--ratio));
 	--s5: calc(var(--s4) * var(--ratio));
+
+	--border-thin: 1px solid black;
+	--border: 2px solid black;
+	--border-thick: 4px solid black;
 }

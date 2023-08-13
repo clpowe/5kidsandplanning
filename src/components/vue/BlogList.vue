@@ -11,8 +11,12 @@
 				/>
 			</li>
 		</ul>
-		<button v-if="page > 1" @click="prevPage">prev</button>
-		<button v-if="!lastpage" @click="nextPage">next</button>
+		<div class="pages">
+			<button class="previous" v-if="page > 1" @click="prevPage">
+				Previous Page
+			</button>
+			<button class="next" v-if="!lastpage" @click="nextPage">Next Page</button>
+		</div>
 	</div>
 </template>
 
@@ -76,6 +80,7 @@
 		}
 		page.value--
 	}
+
 	function nextPage() {
 		if (!lastpage.value) {
 			page.value++
@@ -88,5 +93,24 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+	}
+
+	.pages {
+		display: flex;
+		margin-top: 2rem;
+	}
+
+	button {
+		background-color: transparent;
+		border: none;
+		font-weight: 700;
+	}
+
+	.next {
+		margin-left: auto;
+	}
+
+	.prev {
+		margin-right: auto;
 	}
 </style>

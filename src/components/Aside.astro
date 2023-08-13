@@ -9,12 +9,13 @@ const { data } = await storyblokApi.get('cdn/stories', {
 })
 
 const posts = data.stories.map((story: Story) => {
-	console.log(story)
 	return {
 		title: story.content.title,
-		slug: story.full_slug
+		slug: story.slug
 	}
 })
+
+const { home } = Astro.props
 ---
 
 <aside>
@@ -35,7 +36,11 @@ const posts = data.stories.map((story: Story) => {
 				posts.slice(0, 5).map((post: any) => {
 					return (
 						<li>
-							<a href={post.slug}>{post.title}</a>
+							{home ? (
+								<a href={`/blog/${post.slug}`}>{post.title}</a>
+							) : (
+								<a href={post.slug}>{post.title}</a>
+							)}
 						</li>
 					)
 				})
@@ -43,3 +48,10 @@ const posts = data.stories.map((story: Story) => {
 		</ul>
 	</div>
 </aside>
+
+<style>
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+</style>

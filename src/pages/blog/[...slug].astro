@@ -28,9 +28,15 @@ const author = data2.stories[0].content
 <BaseLayout title={story.name}>
 	<main class='with-sidebar'>
 		<article>
-			<img src={story.content.main_image.filename} alt='' />
+			<img
+				src={story.content.main_image.filename}
+				height='300'
+				width='672'
+				alt=''
+				class=''
+			/>
 			<h1>{story.name}</h1>
-			<p>{story.content.content}</p>
+			<p class='text-base prose prose-truegray'>{story.content.content}</p>
 			<div>
 				<Author
 					name={author.name}
@@ -39,6 +45,12 @@ const author = data2.stories[0].content
 				/>
 			</div>
 		</article>
-		<Aside />
+		<Aside home={false} />
 	</main>
 </BaseLayout>
+
+<style>
+	img {
+		object-fit: cover;
+	}
+</style>

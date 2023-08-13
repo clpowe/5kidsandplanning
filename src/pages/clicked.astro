@@ -1,0 +1,79 @@
+---
+import { useStoryblokApi } from '@storyblok/astro'
+
+import type { Story } from '../Types/Blog'
+const storyblokApi = useStoryblokApi()
+
+const formData = await Astro.request.formData()
+const paginate: string | undefined = formData.get('next')?.toString()
+
+let page: number = 1
+
+if (paginate) {
+	page = parseInt(paginate, 10)
+}
+
+const { data, perPage, total } = await storyblokApi.get('cdn/stories/', {
+	version: 'draft',
+	content_type: 'blogPost',
+	page: page,
+	per_page: 2
+})
+
+let lastpage = Math.round(total / perPage)
+
+const stories: Array<Story> = data.stories
+---
+
+<ul class='ul'>
+	{
+		stories.map((story) => (
+			<li>
+				<div>
+					<img
+						height='200'
+						width='600'
+						src={story.content.preview_Image?.filename}
+						alt=''
+						class='img'
+					/>
+					<h2>
+						<a href={story.full_slug}>{story.content.title}</a>
+					</h2>
+					<time>
+						{new Date(story.published_at).toLocaleDateString('en-US', {
+							dateStyle: 'full'
+						})}
+					</time>
+					<p>{story.content.description}</p>
+				</div>
+			</li>
+		))
+	}
+</ul>
+<div class='pages'>
+	{
+		page > 1 && (
+			<button
+				hx-post='/clicked'
+				name='next'
+				value={page - 1}
+				hx-target='#articles'
+			>
+				prev
+			</button>
+		)
+	}
+	{
+		page < lastpage && (
+			<button
+				hx-post='/clicked'
+				name='next'
+				value={page + 1}
+				hx-target='#articles'
+			>
+				next
+			</button>
+		)
+	}
+</div>
