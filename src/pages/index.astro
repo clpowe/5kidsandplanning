@@ -1,29 +1,31 @@
 ---
 import '@unocss/reset/normalize.css'
-import '../styles/reset.css'
-import '../styles/customVariables.css'
-import '../styles/axioms.css'
-import '../styles/everylayout.css'
-import '../styles/typography.css'
+
+// import '../styles/reset.css'
+// // import '../styles/customVariables.css'
+// // import '../styles/axioms.css'
+// // import '../styles/everylayout.css'
+// // import '../styles/typography.css'
 
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Aside from '../components/Aside.astro'
 
 import { useStoryblokApi } from '@storyblok/astro'
 import type { Story } from '../Types/Blog'
+
+import BlogPostCard from '../components/BlogPostCard.astro'
+import Sidebar from '../components/Sidebar.astro'
 const storyblokApi = useStoryblokApi()
 
 const { data } = await storyblokApi.get('cdn/stories', {
-	version: import.meta.env.DEV ? 'draft' : 'published',
+	version: 'published',
 	content_type: 'blogPost'
 })
 
 const posts = data.stories.map((story: Story) => {
 	return {
 		title: story.content.title,
-		date: new Date(story.published_at).toLocaleDateString('en-US', {
-			dateStyle: 'full'
-		}),
+		date: story.published_at,
 		image: story.content.preview_Image?.filename,
 		description: story.content.description,
 		slug: story.full_slug,
@@ -35,47 +37,30 @@ const posts = data.stories.map((story: Story) => {
 <script></script>
 
 <BaseLayout title='5 Kids and Planning'>
-	<div class='with-sidebar'>
-		<div hx-post='/clicked' hx-trigger='load' id='articles'></div>
+	<Sidebar>
+		<div id='articles'>
+			<ul class='space-y-16'>
+				{
+					posts.slice(0, 5).map((story: any) => (
+						<li>
+							<BlogPostCard
+								title={story.title}
+								date={new Date(story.date).toLocaleDateString('en-US', {
+									dateStyle: 'full'
+								})}
+								image={story.image}
+								description={story.description}
+								slug={story.slug}
+							/>
+						</li>
+					))
+				}
+			</ul>
+			<button hx-post='/articles' name='next' value={2} hx-target='#articles'>
+				next
+			</button>
+		</div>
 
 		<Aside home={true} />
-	</div>
+	</Sidebar>
 </BaseLayout>
-
-<style>
-	ul {
-		padding: 0;
-		margin: 0;
-	}
-
-	.ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	.pages {
-		display: flex;
-		margin-top: 2rem;
-	}
-
-	button {
-		background-color: transparent;
-		border: none;
-		font-weight: 700;
-	}
-
-	.next {
-		margin-left: auto;
-	}
-
-	.prev {
-		margin-right: auto;
-	}
-
-	.img {
-		width: 100%;
-		object-fit: cover;
-		object-position: top;
-	}
-</style>

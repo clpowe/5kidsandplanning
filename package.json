@@ -19,6 +19,7 @@
     "@unocss/preset-wind": "^0.53.6",
     "@unocss/reset": "^0.53.6",
     "astro": "^2.8.3",
+    "nanostores": "^0.9.3",
     "vite": "^4.4.3",
     "vue": "^3.2.30"
   },

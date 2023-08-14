@@ -2,8 +2,7 @@ import { defineConfig } from 'astro/config'
 import storyblok from '@storyblok/astro'
 import { loadEnv } from 'vite'
 import basicSsl from '@vitejs/plugin-basic-ssl'
-import vercel from '@astrojs/vercel/serverless'
-import vue from '@astrojs/vue'
+
 import unocss from '@unocss/astro'
 import presetWind from '@unocss/preset-wind'
 import presetIcons from '@unocss/preset-icons'
@@ -22,7 +21,7 @@ export default defineConfig({
 		}),
 
 		unocss({
-			// injectReset: true,
+			injectReset: true,
 			presets: [presetWind(), presetIcons(), presetTypography()]
 		})
 	],

@@ -1,0 +1,110 @@
+---
+import { useStoryblokApi } from '@storyblok/astro'
+import type { Story } from '../Types/Blog'
+
+import BlogPostCard from '../components/BlogPostCard.astro'
+
+const storyblokApi = useStoryblokApi()
+
+const formData = await Astro.request.formData()
+const paginate: string | undefined = formData.get('next')?.toString()
+
+let page: number = 1
+
+if (paginate) {
+	page = parseInt(paginate, 10)
+}
+
+const { data, perPage, total } = await storyblokApi.get('cdn/stories/', {
+	version: 'published',
+	content_type: 'blogPost',
+	page: page,
+	per_page: 5
+})
+
+let lastpage = Math.round(total / perPage)
+
+const stories: Array<Story> = data.stories
+---
+
+<ul class='space-y-16'>
+	{
+		stories.map((story) => (
+			<li>
+				<BlogPostCard
+					title={story.content.title}
+					date={new Date(story.published_at).toLocaleDateString('en-US', {
+						dateStyle: 'full'
+					})}
+					image={story.content.preview_Image?.filename}
+					description={story.content.description}
+					slug={story.full_slug}
+				/>
+			</li>
+		))
+	}
+</ul>
+<div class='pages'>
+	{
+		page > 1 && (
+			<button
+				hx-post='/articles'
+				name='next'
+				value={page - 1}
+				hx-target='#articles'
+			>
+				prev
+			</button>
+		)
+	}
+	{
+		lastpage >= page && (
+			<button
+				hx-post='/articles'
+				name='next'
+				value={page + 1}
+				hx-target='#articles'
+			>
+				next
+			</button>
+		)
+	}
+</div>
+
+<style>
+	ul {
+		padding: 0;
+		margin: 0;
+	}
+
+	.ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.pages {
+		display: flex;
+		margin-top: 2rem;
+	}
+
+	button {
+		background-color: transparent;
+		border: none;
+		font-weight: 700;
+	}
+
+	.next {
+		margin-left: auto;
+	}
+
+	.prev {
+		margin-right: auto;
+	}
+
+	.img {
+		width: 100%;
+		object-fit: cover;
+		object-position: top;
+	}
+</style>

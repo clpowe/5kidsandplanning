@@ -18,9 +18,9 @@ const posts = data.stories.map((story: Story) => {
 const { home } = Astro.props
 ---
 
-<aside>
+<aside class='max-w-full md:max-w-[28ch] space-y-4'>
 	<article>
-		<h3>About</h3>
+		<h3 class='text-3xl font-bold'>About</h3>
 		<p>
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -30,7 +30,7 @@ const { home } = Astro.props
 		</p>
 	</article>
 	<div>
-		<h3>Recent Post</h3>
+		<h3 class='text-3xl font-bold'>Recent Post</h3>
 		<ul role='list'>
 			{
 				posts.slice(0, 5).map((post: any) => {
@@ -49,9 +49,4 @@ const { home } = Astro.props
 	</div>
 </aside>
 
-<style>
-	ul {
-		margin: 0;
-		padding: 0;
-	}
-</style>
+<style></style>

@@ -11,19 +11,21 @@ interface Props {
 const { title, date, image, description, slug, tags } = Astro.props
 ---
 
-<div>
-	<img height='200' src={image} alt='' />
-	<h2 class='text-2xl'>
-		<a class='text-2xl' href={slug}>{title}</a>
-	</h2>
+<div class='space-y-4'>
 	<time>{date}</time>
-	<p>{description}</p>
+	<img height='200' width='600' src={image} alt='' class='w-full' />
+	<div class='space-y-2'>
+		<h2 class='text-4xl font-bold'>
+			<a class='' href={slug}>{title}</a>
+		</h2>
+		<p>{description}</p>
+	</div>
 </div>
 
-<style>
+<!-- <style>
 	img {
 		width: 100%;
 		object-fit: cover;
 		object-position: top;
 	}
-</style>
+</style> -->
