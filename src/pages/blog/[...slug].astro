@@ -15,13 +15,15 @@ export async function getStaticPaths() {
 		version: 'published',
 		content_type: 'blogPost'
 	})
+
 	const pages = allposts.stories.map((s: Story) => {
-		return { params: { slug: s.slug } }
+		return { params: { slug: s.slug }, props: {} }
 	})
 	return [...pages]
 }
 
 const { slug } = Astro.params
+const { names } = Astro.props
 
 const { data }: { data: Blok } = await storyblokApi.get(
 	`cdn/stories/blog/${slug}`,
@@ -45,23 +47,27 @@ const { data }: { data: Blok } = await storyblokApi.get(
 // })
 
 // const author = data2.stories[0].content
+const { data: allposts } = await storyblokApi.get('cdn/stories', {
+	version: 'published',
+	content_type: 'blogPost'
+})
 
-// const posts = allposts.stories.map((story: Story) => {
-// 	return {
-// 		title: story.content.title,
-// 		date: story.published_at,
-// 		image: story.content.preview_Image?.filename,
-// 		description: story.content.description,
-// 		slug: story.full_slug,
-// 		tags: story.tag_list
-// 	}
-// })
+const posts = allposts.stories.map((story: Story) => {
+	return {
+		title: story.content.title,
+		date: story.published_at,
+		image: story.content.preview_Image?.filename,
+		description: story.content.description,
+		slug: story.full_slug,
+		tags: story.tag_list
+	}
+})
 ---
 
 <BaseLayout title={data.story.name}>
 	<main>
 		<Sidebar>
-			<article class='w-full'>
+			<article class='w-full space-y-8'>
 				<img
 					src={data.story.content.main_image.filename}
 					height='300'
@@ -69,10 +75,12 @@ const { data }: { data: Blok } = await storyblokApi.get(
 					alt=''
 					class=''
 				/>
-				<h1>{data.story.name}</h1>
-				<p class='text-base prose prose-truegray'>
-					{data.story.content.content}
-				</p>
+				<div>
+					<h1 class='text-5xl font-bold mb-4'>{data.story.name}</h1>
+					<p class='text-base prose prose-truegray'>
+						{data.story.content.content}
+					</p>
+				</div>
 				<div>
 					<!-- <Author
 						name={author.name}
@@ -81,7 +89,7 @@ const { data }: { data: Blok } = await storyblokApi.get(
 					/> -->
 				</div>
 			</article>
-			<!-- <aside class='max-w-full md:max-w-[28ch] space-y-4'>
+			<aside class='max-w-full md:max-w-[28ch] space-y-4'>
 				<article>
 					<h3 class='text-3xl font-bold'>About</h3>
 					<p>
@@ -107,7 +115,7 @@ const { data }: { data: Blok } = await storyblokApi.get(
 						}
 					</ul>
 				</div>
-			</aside> -->
+			</aside>
 		</Sidebar>
 	</main>
 </BaseLayout>
