@@ -12,7 +12,7 @@ const env = loadEnv('', process.cwd(), 'STORYBLOK')
 // https://astro.build/config
 export default defineConfig({
 	output: 'server',
-	adapter: vercel(),
+	adapter: vercelEdge(),
 	integrations: [
 		storyblok({
 			accessToken: env.STORYBLOK_TOKEN,
