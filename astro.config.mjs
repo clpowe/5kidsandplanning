@@ -24,11 +24,11 @@ export default defineConfig({
 			injectReset: true,
 			presets: [presetWind(), presetIcons(), presetTypography()]
 		})
-	],
-	vite: {
-		plugins: [basicSsl()],
-		server: {
-			https: true
-		}
-	}
+	]
+	// vite: {
+	// 	plugins: [basicSsl()],
+	// 	server: {
+	// 		https: true
+	// 	}
+	// }
 })
