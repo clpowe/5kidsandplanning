@@ -6,13 +6,13 @@ import unocss from '@unocss/astro'
 import presetWind from '@unocss/preset-wind'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-import vercelStatic from '@astrojs/vercel/static'
+import vercelEdge from '@astrojs/vercel/edge'
 const env = loadEnv('', process.cwd(), 'STORYBLOK')
 
 // https://astro.build/config
 export default defineConfig({
-	output: 'static',
-	adapter: vercelStatic(),
+	output: 'server',
+	adapter: vercelEdge(),
 	integrations: [
 		storyblok({
 			accessToken: env.STORYBLOK_TOKEN,
