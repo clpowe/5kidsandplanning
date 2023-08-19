@@ -6,7 +6,7 @@ import unocss from '@unocss/astro'
 import presetWind from '@unocss/preset-wind'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-import vercel from '@astrojs/vercel/serverless'
+import vercel from '@astrojs/vercel/edge'
 const env = loadEnv('', process.cwd(), 'STORYBLOK')
 
 // https://astro.build/config
@@ -24,11 +24,11 @@ export default defineConfig({
 			presets: [presetWind(), presetIcons(), presetTypography()]
 		})
 	],
-	vite: {
-		plugins: [basicSsl()],
-		server: {
-			https: true
-		}
-	},
+	// vite: {
+	// 	plugins: [basicSsl()],
+	// 	server: {
+	// 		https: true
+	// 	}
+	// },
 	adapter: vercel()
 })
