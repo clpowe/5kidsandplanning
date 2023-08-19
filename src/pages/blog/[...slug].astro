@@ -8,6 +8,19 @@ import type { Story } from '../../Types/Blog'
 import Sidebar from '../../components/Sidebar.astro'
 
 const storyblokApi = useStoryblokApi()
+
+export async function getStaticPaths() {
+	const storyblokApi = useStoryblokApi()
+	const { data: allposts } = await storyblokApi.get('cdn/stories', {
+		version: 'published',
+		content_type: 'blogPost'
+	})
+	const pages = allposts.stories.map((s: Story) => {
+		return { params: { slug: s.slug } }
+	})
+	return [...pages]
+}
+
 const { slug } = Astro.params
 
 const { data }: { data: Blok } = await storyblokApi.get(
@@ -17,54 +30,58 @@ const { data }: { data: Blok } = await storyblokApi.get(
 	}
 )
 
-const story = data.story
+// const { data: data3 }: { data: Blok } = await storyblokApi.get(
+// 	`cdn/stories/blog/`,
+// 	{
+// 		version: 'published'
+// 	}
+// )
+// console.log(data3)
+// const story = data.story
 
-const { data: data2 } = await storyblokApi.get(`cdn/stories/`, {
-	version: 'published',
-	by_uuids: story.content.Author
-})
+// const { data: data2 } = await storyblokApi.get(`cdn/stories/`, {
+// 	version: 'published',
+// 	by_uuids: story.content.Author
+// })
 
-const { data: allposts } = await storyblokApi.get('cdn/stories', {
-	version: 'published',
-	content_type: 'blogPost'
-})
+// const author = data2.stories[0].content
 
-const author = data2.stories[0].content
-
-const posts = allposts.stories.map((story: Story) => {
-	return {
-		title: story.content.title,
-		date: story.published_at,
-		image: story.content.preview_Image?.filename,
-		description: story.content.description,
-		slug: story.full_slug,
-		tags: story.tag_list
-	}
-})
+// const posts = allposts.stories.map((story: Story) => {
+// 	return {
+// 		title: story.content.title,
+// 		date: story.published_at,
+// 		image: story.content.preview_Image?.filename,
+// 		description: story.content.description,
+// 		slug: story.full_slug,
+// 		tags: story.tag_list
+// 	}
+// })
 ---
 
-<BaseLayout title={story.name}>
+<BaseLayout title={data.story.name}>
 	<main>
 		<Sidebar>
 			<article class='w-full'>
 				<img
-					src={story.content.main_image.filename}
+					src={data.story.content.main_image.filename}
 					height='300'
 					width='672'
 					alt=''
 					class=''
 				/>
-				<h1>{story.name}</h1>
-				<p class='text-base prose prose-truegray'>{story.content.content}</p>
+				<h1>{data.story.name}</h1>
+				<p class='text-base prose prose-truegray'>
+					{data.story.content.content}
+				</p>
 				<div>
-					<Author
+					<!-- <Author
 						name={author.name}
 						quote={author.tagline}
 						image={author.image.filename}
-					/>
+					/> -->
 				</div>
 			</article>
-			<aside class='max-w-full md:max-w-[28ch] space-y-4'>
+			<!-- <aside class='max-w-full md:max-w-[28ch] space-y-4'>
 				<article>
 					<h3 class='text-3xl font-bold'>About</h3>
 					<p>
@@ -90,11 +107,10 @@ const posts = allposts.stories.map((story: Story) => {
 						}
 					</ul>
 				</div>
-			</aside>
+			</aside> -->
 		</Sidebar>
 	</main>
 </BaseLayout>
-
 <style>
 	img {
 		object-fit: cover;
